@@ -13,6 +13,7 @@ library(tidyverse)
 *Part 1*
 
 ```{r}
+#Provided code from documentation
 d1=read.table("student-mat.csv",sep=";",header=TRUE)
 d2=read.table("student-por.csv",sep=";",header=TRUE)
 
@@ -67,4 +68,42 @@ d3 <- d3 |>
 
 ```
 
-## Running Code
+## Summarize the Data
+
+*Checking the data set for any missing values*
+
+```{r}
+#Looking at the combined data set
+str(d3)
+
+#Documenting missing values
+summary(d3)
+```
+
+**There are no missing values**
+
+*Creating a one-way, two-way, and three-way contigency table for the factor variables created above*
+
+```{r}
+#One-Way contingency table
+d3 |> 
+  group_by(famsize) |> 
+  summarise(count = n())
+```
+**There are 230 observations with a family size of more than 3 people and 90 observations with with a family size of 3 or less people**
+
+```{r}
+#Two-Way contingency table
+d3 |> 
+  group_by(famsize, Mjob) |> 
+  summarise(count = n())
+```
+**Of the families with three or more members, 35 of the male parents work as teachers**
+
+```{r}
+d3 |> 
+  group_by(famsize, Mjob, Fjob) |> 
+  summarise(count = n())
+```
+
+**There are 3 students who have a family size larger than three and who's parents both work at home**
