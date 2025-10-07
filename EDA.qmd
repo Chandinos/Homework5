@@ -321,7 +321,7 @@ g + geom_boxplot() + labs(
   fill = "Family Size"
 )
 ```
-*These three plots show how math class absences are distributed across the different family sizes. The histogram and kernel plot show how often most students miss class which is heavily right skewed. The boxplot shows a comparison of the of center and spread of math absences grouped by family size. The histogram and box plot show similarity in their distributions whereas the boxplot shows similar centers but different spreads. Students in a family of more than three members have more variation in their attendance than students from families with three or less members.*
+*These three plots show how math class absences are distributed across family sizes. The histogram and kernel density plot both reveal a heavily right-skewed distribution, with most students missing only a few classes but some having very high absences. The boxplot summarizes these differences, showing that while the centers are fairly similar between groups, students from larger families (>3) display more variation in attendance compared to students from smaller families (≤3).*
 
 ##### Final Math Grade by family size
 ```{r}
@@ -353,4 +353,4 @@ g + geom_boxplot() + labs(
   fill = "Family Size"
 )
 ```
-*These three plots show how final math grades are distributed across the different family sizes.The histogram and kernel plot show similar, unimodal, distributions with most students clustered in the middle. The average final math grade is slightly better among students in a family of three or less than among students in a family of more than 3.
+*These three plots show how final math grades are distributed across family sizes. Both the histogram and kernel density plot reveal similar unimodal distributions, with most students clustered around the middle of the grading scale. The boxplot highlights that students from smaller families (≤3) tend to have slightly higher average final math grades compared to those from larger families (>3).*
