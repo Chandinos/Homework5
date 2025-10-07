@@ -9,9 +9,10 @@ toc: true
 library(tidyverse)
 ```
 
-##Task 1: Read in Data and Modify
+## Task 1: Read in Data and Modify
 
-###Part 1: Read in Data
+### Part 1: Read in Data
+
 ```{r}
 #Provided code from documentation
 d1=read.table("student-mat.csv",sep=";",header=TRUE)
@@ -21,16 +22,19 @@ d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","F
 print(nrow(d3)) # 382 students
 ```
 
-###Part 2: Inspecting the issue when using inner join with the selected variables
+### Part 2: Inspecting the issue when using inner join with the selected variables
+
 ```{r}
 d1 <- read_delim("student-mat.csv", delim = ";", show_col_types = FALSE)
 d2 <- read_delim("student-por.csv", delim = ";", show_col_types = FALSE)
 
 d3 <- inner_join(d1, d2, by = c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet"))
 ```
+
 *The issue is detected on Row 79. It duplicated columns (G1, G2, G3, etc...) and add a suffix with what data set it came from (x or y). This is happening because it I believe some of the students have overlapping key variables so it a many-to-many join and not a one to one join.*
 
-###Part 3: Use an inner_join() on all variables other than G1, G2, G3, paid, and absences. Use his form of the combined data in further exercises.
+### Part 3: Use an inner_join() on all variables other than G1, G2, G3, paid, and absences. Use his form of the combined data in further exercises.
+
 ```{r}
 d1 <- read_delim("student-mat.csv", delim = ";", show_col_types = FALSE)
 d2 <- read_delim("student-por.csv", delim = ";", show_col_types = FALSE)
@@ -38,7 +42,8 @@ d2 <- read_delim("student-por.csv", delim = ";", show_col_types = FALSE)
 d3 <- inner_join(d1, d2, by = c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob", "reason", "guardian", "traveltime", "studytime", "failures", "schoolsup", "famsup", "activities", "nursery", "higher", "internet", "romantic", "famrel", "freetime", "goout", "Dalc", "Walc", "health"))
 ```
 
-###Part 4: Next, for the math data, Portuguese, and combined data, choose four categorical variables you are interested in and convert those into factor variables in each tibble (use the same four variables in each). Use the mutate() function to accomplish this.
+### Part 4: Next, for the math data, Portuguese, and combined data, choose four categorical variables you are interested in and convert those into factor variables in each tibble (use the same four variables in each). Use the mutate() function to accomplish this.
+
 ```{r}
 d1 <- d1 |> 
   mutate(Pstatus = as.factor(Pstatus),
@@ -60,11 +65,10 @@ d3 <- d3 |>
 
 ```
 
-
-##Summarize the Data (Explore Data Set, Categorical Variable Summaries, Numerical Variable Summaries)
-
+## Summarize the Data (Explore Data Set, Categorical Variable Summaries, Numerical Variable Summaries)
 
 **Checking the data set for any missing values**
+
 ```{r}
 #Looking at the combined data set
 str(d3)
@@ -72,18 +76,19 @@ str(d3)
 #Documenting missing values
 summary(d3)
 ```
+
 *There are no missing values*
 
+### Categorical Variable Summaries
 
-###Categorical Variable Summaries
+#### Creating a one-way, two-way, and three-way contingency table for the factor variables created above\*\*
 
-
-####Creating a one-way, two-way, and three-way contingency table for the factor variables created above\*\*
 ```{r}
 #One-Way contingency table
 one_way <- table(d3$famsize)
 one_way
 ```
+
 *There are 230 observations with a family size of more than 3 people and 90 observations with with a family size of 3 or less people*
 
 ```{r}
@@ -91,15 +96,18 @@ one_way
 two_way <- table(d3$famsize, d3$Mjob)
 two_way
 ```
+
 *Of the families with three or more members, 35 of the male parents work as teachers*
 
 ```{r}
 three_way <- table(d3$famsize, d3$Mjob, d3$Fjob)
 three_way
 ```
+
 *There are 3 students who have a family size larger than three and who's parents both work at home.*
 
-####Creating a conditional two-way contingency table (2 separate methods)
+#### Creating a conditional two-way contingency table (2 separate methods)
+
 ```{r}
 #Filtering data and then creating the table
 d3_filt <- d3 |>
@@ -115,9 +123,11 @@ method_b <- d3_slice[ , , "teacher"]
 method_b
 
 ```
+
 *There are 2 students that a family with more than 3 members in it and have a male parent who works as a teacher as well as female parent who works have home.*
 
-####Creating a two-way contingency table using group_by and summarize. Then using pivot_wider() to make the result look more like the output above\*\*
+#### Creating a two-way contingency table using group_by and summarize. Then using pivot_wider() to make the result look more like the output above\*\*
+
 ```{r}
 method_c <- d3 |>
   group_by(famsize, Fjob) |>
@@ -128,9 +138,11 @@ method_c <- d3 |>
 
 method_c
 ```
+
 *There are 4 students who have a family size less than or equal to three who female parent works in the health industry.*
 
-####Creating a stacked bar graph using using family size and the female parents job
+#### Creating a stacked bar graph using using family size and the female parents job
+
 ```{r}
 bar_plot <- ggplot(data = d3, aes(x = famsize, fill = Fjob))
 bar_plot + geom_bar() +
@@ -138,13 +150,13 @@ bar_plot + geom_bar() +
        x = "Family Size",
        y= "Number of Students")
 ```
+
 *The stacked bar plot is a visual representation of the distribution of student's mother's occupation by their family size (either greater than 3 members or less than or equal to 3 members).*
 
+### Numeric Variable Summaries
 
-###Numeric Variable Summaries
+#### Find measures of center and spread for three of these variables (including at least one G3 variable)
 
-
-####Find measures of center and spread for three of these variables (including at least one G3 variable)
 ```{r}
 #Measures of Center (mean, median)
 d3 |>
@@ -199,9 +211,11 @@ d3 |>
     IQR_G3_Math = IQR(G3.x))
 
 ```
+
 *The average age of students in the data set is 16.5 years old and the average student misses about 5 days of math class. This data is for students who come from families with more than 3 members in them.*
 
-####Find measures of center and spread across a single grouping variable for three of these variables (including a G3 variable as one of them).
+#### Find measures of center and spread across a single grouping variable for three of these variables (including a G3 variable as one of them).
+
 ```{r}
 #Measures of Center (by family size)
 d3 |>
@@ -230,9 +244,11 @@ d3 |>
     sd_G3_Math = sd(G3.x),
     IQR_G3_Math = IQR(G3.x))
 ```
+
 *(Center) Students who come from families with more than 3 members have slightly more absences in math class and slightly lower math grades than students who come from families with 3 or less members in them. (Spread) There is more variability in the absences from math class from families with more than 3 members than from families with 3 or less members.*
 
-####Find measures of center and spread across two grouping variables for three of these variables (including a G3 variable as one of them)
+#### Find measures of center and spread across two grouping variables for three of these variables (including a G3 variable as one of them)
+
 ```{r}
 #Measures of Center (by family size and sex)
 d3 |>
@@ -261,7 +277,5 @@ d3 |>
     sd_G3_Math = sd(G3.x),
     IQR_G3_Math = IQR(G3.x))
 ```
-*The average number of male absences from math class coming families containing more than 3 members is noticeably less than the average number of absences for females coming from the same family as well as noticeably less the average number of absences of males or females from families with less than 3 members.
 
-
-
+*The average number of male absences from math class coming families containing more than 3 members is noticeably less than the average number of absences for females coming from the same family as well as noticeably less the average number of absences of males or females from families with less than 3 members.*
