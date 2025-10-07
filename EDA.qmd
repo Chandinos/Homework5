@@ -63,12 +63,9 @@ d3 <- d3 |>
          Mjob = as.factor(Mjob),
          Fjob = as.factor(Fjob))
 
-
-
-
 ```
 
-## Summarize the Data
+## Summarize the Data (Explore Data Set, Categorical Variable Summaries, Numerical Variable Summaries)
 
 *Checking the data set for any missing values*
 
@@ -86,24 +83,60 @@ summary(d3)
 
 ```{r}
 #One-Way contingency table
-d3 |> 
-  group_by(famsize) |> 
-  summarise(count = n())
+one_way <- table(d3$famsize)
+one_way
 ```
 **There are 230 observations with a family size of more than 3 people and 90 observations with with a family size of 3 or less people**
 
 ```{r}
 #Two-Way contingency table
-d3 |> 
-  group_by(famsize, Mjob) |> 
-  summarise(count = n())
+two_way <- table(d3$famsize, d3$Mjob)
+two_way
 ```
 **Of the families with three or more members, 35 of the male parents work as teachers**
 
 ```{r}
-d3 |> 
-  group_by(famsize, Mjob, Fjob) |> 
-  summarise(count = n())
+three_way <- table(d3$famsize, d3$Mjob, d3$Fjob)
+three_way
 ```
 
 **There are 3 students who have a family size larger than three and who's parents both work at home**
+
+*Creating a conditional two-way contingency (2 separate methods)*
+```{r}
+#Filtering data and then creating the table
+d3_filt <- d3 |>
+  filter(Mjob == "teacher")
+
+method_a <- table(d3_filt$famsize, d3_filt$Fjob)
+method_a
+
+#Creating a three-way contingency table and then slicing it
+d3_slice <- table(d3$famsize, d3$Fjob, d3$Mjob)
+
+method_b <- d3_slice[ , , "teacher"]
+method_b
+
+```
+
+*Creating a two-way contingency table using group_by and summarize. Then using pivot_wider() to make the result look more like the output above*
+```{r}
+method_c <- d3 |>
+  group_by(famsize, Fjob) |>
+  summarise(count = n()) |>
+  pivot_wider (
+    names_from = Fjob,
+    values_from = count)
+
+method_c
+```
+
+*Creating a stacked bar graph using using family size and the female parents job*
+```{r}
+bar_plot <- ggplot(data = d3, aes(x = famsize, fill = Fjob))
+bar_plot + geom_bar() +
+  labs(title = "Mom's Occupation by Family Size of Students",
+       x = "Family Size",
+       y= "Number of Students")
+```
+
