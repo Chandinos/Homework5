@@ -307,12 +307,12 @@ g <- ggplot(data = d3, aes(x = absences.x, color = famsize, fill = famsize))
 g + geom_density() + labs(
   title = "Math Absences by family size Kernal Density Plot",
   x = "Math Absences",
-  y = "Count",
+  y = "Density",
   fill = "Family Size",
   color = "Family Size"
 )
 
-#Creating a Boxplot for Math Class Absences and Final Math Grade by family size
+#Creating a Boxplot for Math Class Absences by family size
 g <- ggplot(data = d3, aes(x = famsize, y = absences.x, fill = famsize))
 g + geom_boxplot() + labs(
   title = "Math Absences by family size Boxplot",
@@ -322,3 +322,35 @@ g + geom_boxplot() + labs(
 )
 ```
 *These three plots show how math class absences are distributed across the different family sizes. The histogram and kernel plot show how often most students miss class which is heavily right skewed. The boxplot shows a comparison of the of center and spread of math absences grouped by family size. The histogram and box plot show similarity in their distributions whereas the boxplot shows similar centers but different spreads. Students in a family of more than three members have more variation in their attendance than students from families with three or less members.*
+
+##### Final Math Grade by family size
+```{r}
+#Creating a Histogram using Final Math Grade by family size
+g <- ggplot(data = d3, aes(x = G3.x, fill = famsize))
+g + geom_histogram(binwidth = 1) + labs(
+  title = "Final Math Grade by family size Histogram",
+  x = "Final Math Grade ",
+  y = "Count",
+  fill = "Family Size"
+)
+
+#Creating a Kernel Density Plot using Final Math Grade by family size
+g <- ggplot(data = d3, aes(x = G3.x, color = famsize, fill = famsize))
+g + geom_density(adjust = 1) + labs(
+  title = "Final Math Grade by family size Kernal Density Plot",
+  x = "Final Math Grade",
+  y = "Density",
+  fill = "Family Size",
+  color = "Family Size"
+)
+
+#Creating a Boxplot for Final Math Grade by family size
+g <- ggplot(data = d3, aes(x = famsize, y = G3.x, fill = famsize))
+g + geom_boxplot() + labs(
+  title = "Final Math Grade by family size Boxplot",
+  x = "Family Size",
+  y = "Final Math Grade (0-20)",
+  fill = "Family Size"
+)
+```
+*These three plots show how final math grades are distributed across the different family sizes.The histogram and kernel plot show similar, unimodal, distributions with most students clustered in the middle. The average final math grade is slightly better among students in a family of three or less than among students in a family of more than 3.
