@@ -463,6 +463,185 @@ GT3 LE3
 <p><em>The stacked bar plot is a visual representation of the distribution of student’s mother’s occupation by their family size (either greater than 3 members or less than or equal to 3 members).</em></p>
 <p>###Numeric Variable Summaries</p>
 <p>####Find measures of center and spread for three of these variables (including at least one G3 variable)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Center (mean, median)</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age),</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age),</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class </span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_absences_Math =</span> <span class="fu">mean</span>(absences.x),</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_absences_Math=</span> <span class="fu">median</span>(absences.x),</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_G3_Math =</span> <span class="fu">mean</span>(G3.x),</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_G3_Math =</span> <span class="fu">median</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  mean_age median_age mean_absences_Math median_absences_Math mean_G3_Math
+     &lt;dbl&gt;      &lt;dbl&gt;              &lt;dbl&gt;                &lt;dbl&gt;        &lt;dbl&gt;
+1     16.5         16               5.41                    4         11.0
+# ℹ 1 more variable: median_G3_Math &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Spread (Standard Deviation(sd) and IQR)</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(age),</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age),</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_absences_Math =</span> <span class="fu">sd</span>(absences.x),</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_absences_Math=</span> <span class="fu">IQR</span>(absences.x),</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_G3_Math =</span> <span class="fu">sd</span>(G3.x),</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_G3_Math =</span> <span class="fu">IQR</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  sd_age IQR_age sd_absences_Math IQR_absences_Math sd_G3_Math IQR_G3_Math
+   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+1   1.14       1             7.84              7.25       4.30           5</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="do">##Subsetting and only looking at the data for family size less than or equal to 3##</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span> </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(famsize <span class="sc">==</span> <span class="st">"GT3"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age),</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class </span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_absences_Math =</span> <span class="fu">mean</span>(absences.x),</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_absences_Math=</span> <span class="fu">median</span>(absences.x),</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_G3_Math =</span> <span class="fu">mean</span>(G3.x),</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_G3_Math =</span> <span class="fu">median</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  mean_age median_age mean_absences_Math median_absences_Math mean_G3_Math
+     &lt;dbl&gt;      &lt;dbl&gt;              &lt;dbl&gt;                &lt;dbl&gt;        &lt;dbl&gt;
+1     16.5         16               5.25                    4         10.8
+# ℹ 1 more variable: median_G3_Math &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Spread (Standard Deviation(sd) and IQR)</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(famsize <span class="sc">==</span> <span class="st">"GT3"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(age),</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age),</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_absences_Math =</span> <span class="fu">sd</span>(absences.x),</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_absences_Math=</span> <span class="fu">IQR</span>(absences.x),</span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_G3_Math =</span> <span class="fu">sd</span>(G3.x),</span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_G3_Math =</span> <span class="fu">IQR</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  sd_age IQR_age sd_absences_Math IQR_absences_Math sd_G3_Math IQR_G3_Math
+   &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
+1   1.16       1             7.92              6.75       4.42           5</code></pre>
+</div>
+</div>
+<p><em>The average age of students in the data set is 16.5 years old and the average student misses about 5 days of math class. This data is for students who come from families with more than 3 members in them.</em></p>
+<p>####Find measures of center and spread across a single grouping variable for three of these variables (including a G3 variable as one of them).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Center (by family size)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(famsize ) <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age),</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class </span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_absences_Math =</span> <span class="fu">mean</span>(absences.x),</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_absences_Math=</span> <span class="fu">median</span>(absences.x),</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_G3_Math =</span> <span class="fu">mean</span>(G3.x),</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_G3_Math =</span> <span class="fu">median</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  famsize mean_age median_age mean_absences_Math median_absences_Math
+  &lt;fct&gt;      &lt;dbl&gt;      &lt;dbl&gt;              &lt;dbl&gt;                &lt;dbl&gt;
+1 GT3         16.5         16               5.25                    4
+2 LE3         16.6         17               5.82                    4
+# ℹ 2 more variables: mean_G3_Math &lt;dbl&gt;, median_G3_Math &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Spread (by family size)</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(famsize) <span class="sc">|&gt;</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(age),</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age),</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class</span></span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_absences_Math =</span> <span class="fu">sd</span>(absences.x),</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_absences_Math=</span> <span class="fu">IQR</span>(absences.x),</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_G3_Math =</span> <span class="fu">sd</span>(G3.x),</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_G3_Math =</span> <span class="fu">IQR</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  famsize sd_age IQR_age sd_absences_Math IQR_absences_Math sd_G3_Math
+  &lt;fct&gt;    &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+1 GT3       1.16    1                7.92              6.75       4.42
+2 LE3       1.10    1.75             7.65              6          3.94
+# ℹ 1 more variable: IQR_G3_Math &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p><em>(Center) Students who come from families with more than 3 members have slightly more absences in math class and slightly lower math grades than students who come from families with 3 or less members in them. (Spread) There is more variability in the absences from math class from families with more than 3 members than from families with 3 or less members.</em></p>
+<p>####Find measures of center and spread across two grouping variables for three of these variables (including a G3 variable as one of them)</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Center (by family size and sex)</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(famsize, sex) <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_age =</span> <span class="fu">mean</span>(age),</span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_age =</span> <span class="fu">median</span>(age),</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class </span></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_absences_Math =</span> <span class="fu">mean</span>(absences.x),</span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_absences_Math=</span> <span class="fu">median</span>(absences.x),</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_G3_Math =</span> <span class="fu">mean</span>(G3.x),</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">median_G3_Math =</span> <span class="fu">median</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'famsize'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+# Groups:   famsize [2]
+  famsize sex   mean_age median_age mean_absences_Math median_absences_Math
+  &lt;fct&gt;   &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;              &lt;dbl&gt;                &lt;dbl&gt;
+1 GT3     F         16.6         17               5.81                  4  
+2 GT3     M         16.3         16               4.53                  3  
+3 LE3     F         16.6         17               5.70                  3.5
+4 LE3     M         16.6         17               5.93                  4  
+# ℹ 2 more variables: mean_G3_Math &lt;dbl&gt;, median_G3_Math &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Measures of Spread (by family size and sex)</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>d3 <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(famsize, sex) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_age =</span> <span class="fu">sd</span>(age),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_age =</span> <span class="fu">IQR</span>(age),</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">#From Math Class</span></span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_absences_Math =</span> <span class="fu">sd</span>(absences.x),</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_absences_Math=</span> <span class="fu">IQR</span>(absences.x),</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd_G3_Math =</span> <span class="fu">sd</span>(G3.x),</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">IQR_G3_Math =</span> <span class="fu">IQR</span>(G3.x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`summarise()` has grouped output by 'famsize'. You can override using the
+`.groups` argument.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+# Groups:   famsize [2]
+  famsize sex   sd_age IQR_age sd_absences_Math IQR_absences_Math sd_G3_Math
+  &lt;fct&gt;   &lt;chr&gt;  &lt;dbl&gt;   &lt;dbl&gt;            &lt;dbl&gt;             &lt;dbl&gt;      &lt;dbl&gt;
+1 GT3     F       1.07       1             9.56              7          4.53
+2 GT3     M       1.24       2             5.00              6          4.15
+3 LE3     F       1.04       1             8.98              6.5        4.13
+4 LE3     M       1.16       2             6.22              6.75       3.74
+# ℹ 1 more variable: IQR_G3_Math &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>*The average number of male absences from math class coming families containing more than 3 members is noticeably less than the average number of absences for females coming from the same family as well as noticeably less the average number of absences of males or females from families with less than 3 members.</p>
 
 
 
