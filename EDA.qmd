@@ -279,3 +279,46 @@ d3 |>
 ```
 
 *The average number of male absences from math class coming families containing more than 3 members is noticeably less than the average number of absences for females coming from the same family as well as noticeably less the average number of absences of males or females from families with less than 3 members.*
+
+#### Create a correlation matrix between all of the numeric variables
+```{r}
+#Correlation Matrix between all numeric variables
+d3 |>
+  select(where(is.numeric)) |>
+  cor(use = "pairwise.complete.obs")
+```
+*There is a strong correlation between students who miss math class and students who miss Portuguese class*
+
+#### Create a histogram, kernel density plot, and boxplot for two of the numeric variables across one of the categorical variables
+
+##### Math Class Absences by Family Size
+```{r}
+#Creating a Histogram using Math Class Absences by family size
+g <- ggplot(data = d3, aes(x = absences.x, fill = famsize))
+g + geom_histogram() + labs(
+  title = "Math Absences by family size Histogram",
+  x = "Math Absences",
+  y = "Count",
+  fill = "Family Size"
+)
+
+#Creating a Kernel Density Plot using Math Class Absences by family size
+g <- ggplot(data = d3, aes(x = absences.x, color = famsize, fill = famsize))
+g + geom_density() + labs(
+  title = "Math Absences by family size Kernal Density Plot",
+  x = "Math Absences",
+  y = "Count",
+  fill = "Family Size",
+  color = "Family Size"
+)
+
+#Creating a Boxplot for Math Class Absences and Final Math Grade by family size
+g <- ggplot(data = d3, aes(x = famsize, y = absences.x, fill = famsize))
+g + geom_boxplot() + labs(
+  title = "Math Absences by family size Boxplot",
+  x = "Family Size",
+  y = "Math Absences",
+  fill = "Family Size"
+)
+```
+*These three plots show how math class absences are distributed across the different family sizes. The histogram and kernel plot show how often most students miss class which is heavily right skewed. The boxplot shows a comparison of the of center and spread of math absences grouped by family size. The histogram and box plot show similarity in their distributions whereas the boxplot shows similar centers but different spreads. Students in a family of more than three members have more variation in their attendance than students from families with three or less members.*
