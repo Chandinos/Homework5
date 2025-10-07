@@ -2,6 +2,7 @@
 title: "EDA_Practice"
 format: html
 editor: visual
+toc: true
 ---
 
 ```{r}
@@ -139,4 +140,12 @@ bar_plot + geom_bar() +
 ```
 *The stacked bar plot is a visual representation of the distribution of student's mother's occupation by their family size (either greater than 3 members or less than or equal to 3 members).*
 
+
 ###Numeric Variable Summaries
+
+
+####Find measures of center and spread for three of these variables (including at least one G3 variable)
+```{r}
+
+```
+
