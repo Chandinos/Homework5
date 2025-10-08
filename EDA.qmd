@@ -354,3 +354,69 @@ g + geom_boxplot() + labs(
 )
 ```
 *These three plots show how final math grades are distributed across family sizes. Both the histogram and kernel density plot reveal similar unimodal distributions, with most students clustered around the middle of the grading scale. The boxplot highlights that students from smaller families (≤3) tend to have slightly higher average final math grades compared to those from larger families (>3).*
+
+#####  Create two scatterplots relating a G3 variable to other numeric variables (put G3 on the y-axis). You should jitter the points if they sit on top of each other.
+```{r}
+#Final Math Grade vs Age by family size
+g <- ggplot(data = d3, aes(x = age, y = G3.x, color = famsize))
+g + geom_jitter(size = 2) + labs(
+  title = "Age vs Final Math Grade by family size",
+  x = "Age",
+  y = "Final Math Grade",
+  color = "Family Size")
+```
+
+```{r}
+#Final Math Grade vs Math class absences by family size
+g <- ggplot(data = d3, aes(x = absences.x, y = G3.x, color = famsize))
+g + geom_jitter(size = 2) + labs(
+  title = "Math Absences vs Final Math Grade by family size",
+  x = "Math Absences",
+  y = "Final Math Grade",
+  color = "Family Size")
+```
+*Scatter-plot 1 shows that final math grades are fairly evenly spread across ages, with no clear trend that older or younger students perform differently. Scatter-plot 2 shows most students clustered at lower absence counts, but there isn’t a very strong or obvious pattern between absences and grades overall.*
+
+##### Repeat the scatter plot step but use faceting to obtain graphs at each setting of another categorical variable.
+```{r}
+g <- ggplot(data = d3, aes(x = age, y = G3.x, color = famsize))
+g + geom_jitter(size = 2) + facet_wrap ( ~ sex) + labs(
+  title = "Age vs Final Math Grade by family size faceted by sex",
+  x = "Age",
+  y = "Final Math Grade",
+  color = "Family Size")
+```
+
+```{r}
+#Final Math Grade vs Math class absences by family size faceting by sex
+g <- ggplot(data = d3, aes(x = absences.x, y = G3.x, color = famsize))
+g + geom_jitter(size = 2) + facet_wrap ( ~ sex) + labs(
+  title = "Math Absences vs Final Math Grade by family size faceted by sex",
+  x = "Math Absences",
+  y = "Final Math Grade",
+  color = "Family Size")
+```
+*The same scatter plot information above has now been faceted by sex so you see a side by side comparison of the scatter plot above introducing a grouping by sex*
+
+##### Repeat the scatter plot step but use faceting to obtain graphs at each combination of two categorical variables
+```{r}
+#Absences vs Final Math Grade faceted by Sex and Family Size
+g <- ggplot(data = d3, aes(x = absences.x, y = G3.x, color = famsize))
+g + geom_jitter(size = 2) + facet_wrap ( sex ~ famsize) + labs(
+  title = "Absences vs Final Math Grade faceted by Sex and Family Size",
+  x = "Absences",
+  y = "Final Math Grade",
+  color = "Family Size")
+
+```
+
+```{r}
+#Age vs Final Math Grade faceted by Sex and Family Size
+g <- ggplot(data = d3, aes(x = age, y = G3.x, color = famsize))
+g + geom_jitter(size = 2) + facet_wrap (sex ~ famsize ) + labs(
+  title = "Age vs Final Math Grade faceted by Sex and Family Size",
+  x = "Age",
+  y = "Final Math Grade",
+  color = "Family Size")
+```
+*The scatter-plots are now broken down by two categorical variables instead of one which allows to easily see how the interactions between the two numerical variables are broken up by two factor variables.*
